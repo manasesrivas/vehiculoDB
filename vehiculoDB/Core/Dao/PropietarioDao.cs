@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using vehiculoDB.Core.Clases;
 using vehiculoDB.Core.Lib;
+using System.Data;
 
 namespace vehiculoDB.Core.Dao
 {
@@ -68,7 +69,7 @@ namespace vehiculoDB.Core.Dao
             {
                 IdPropetario = rd.GetInt32(0),
                 Nombre = rd.GetString(1),
-                Apeliido = rd.GetString(2),
+                Apellido = rd.GetString(2),
                 Dui = rd.GetString(3),
                 Telefono = rd.IsDBNull(4) ? null : rd.GetString(4),
                 Direccion = rd.IsDBNull(5) ? null : rd.GetString(5)
@@ -76,22 +77,104 @@ namespace vehiculoDB.Core.Dao
 
         }
 
-        public Propietario GetById(int idPropietario)
+        public Propietario? GetById(int idPropietario)
         {
-            throw new NotImplementedException();
+            SqlDataReader rd = null;
+
+            try
+            {
+                Con = OpenDb();
+
+                command = new SqlCommand(@"
+                    SELECT IdPropietario, Nombre, Apellido, DUI, Telefono, Direccion 
+                    FROM Propietarios 
+                    WHERE IdPropietario = @idPropietario;", Con);
+
+                command.Parameters.Add("@idPropietario", SqlDbType.Int).Value = idPropietario;
+                rd = command.ExecuteReader(CommandBehavior.SingleRow);
+
+                if(!rd.Read())
+                {
+                    return null;
+                }
+
+                return Map(rd);
+
+            }
+
+            finally
+            {
+                rd?.Close();
+                command?.Dispose();
+                CloseDb();
+            }
         }
 
         public int Insert(Propietario paPropietario)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Con = OpenDb();
+
+                command = new SqlCommand(@"
+                    INSERT INTO Propietarios (Nombre, Apellido, DUI, Telefono, Direccion)
+                    OUTPUT INSERTED.IdPropietario
+                    VALUES (@nombre, @apellido, @dui, @telefono, @direccion);
+                    SELECT SCOPE_IDENTITY();", Con);
+
+                command.Parameters.Add("@nombre", SqlDbType.NVarChar, 100).Value = paPropietario.Nombre;
+                command.Parameters.Add("@apellido", SqlDbType.NVarChar, 100).Value = paPropietario.Apellido;
+                command.Parameters.Add("@dui", SqlDbType.Char, 10).Value = paPropietario.Dui;
+                command.Parameters.Add("@telefono", SqlDbType.Char, 15).Value = (object?)paPropietario.Telefono ?? DBNull.Value ;
+                command.Parameters.Add("@direccion", SqlDbType.NVarChar, 200).Value = (object?)paPropietario.Direccion ?? DBNull.Value;
+
+                var id = command.ExecuteScalar();
+                return Convert.ToInt32(id);
+
+            }
+            catch ( SqlException ex) when (ex.Number == 2627 || ex.Number == 2601){
+                throw new ApplicationException("El DUI ya existe, verifica la informacion. ", ex);
+            }
+            finally
+            {
+                command?.Dispose();
+                CloseDb();
+            }
         }
 
         public bool Update(Propietario paPropietario)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                Con = OpenDb();
+                command = new SqlCommand(@"
+                    UPDATE Propietarios
+                    SET Nombre = @nombre,
+                        Apellido = @apellido,
+                        DUI = @dui,
+                        Telefono = @telefono,
+                        Direccion = @direccion
+                    WHERE IdPropietario = @idPropietario;", Con);
+                command.Parameters.Add("@idPropietario", SqlDbType.Int).Value = paPropietario.IdPropetario;
+                command.Parameters.Add("@nombre", SqlDbType.NVarChar, 100).Value = paPropietario.Nombre;
+                command.Parameters.Add("@apellido", SqlDbType.NVarChar, 100).Value = paPropietario.Apellido;
+                command.Parameters.Add("@dui", SqlDbType.Char, 10).Value = paPropietario.Dui;
+                command.Parameters.Add("@telefono", SqlDbType.Char, 15).Value = (object?)paPropietario.Telefono ?? DBNull.Value;
+                command.Parameters.Add("@direccion", SqlDbType.NVarChar, 200).Value = (object?)paPropietario.Direccion ?? DBNull.Value;
+                var filasAfectadas = command.ExecuteNonQuery();
+                return filasAfectadas == 1;
+            }
+            catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+            {
+                throw new ApplicationException("El DUI ya existe, verifica la informacion. ", ex);
+            }
+            finally
+            {
+                command?.Dispose();
+                CloseDb();
+            }
 
-
+        }   
 
     }
 

@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             dataGridViewPropietario = new DataGridView();
-            button1 = new Button();
+            buttonAgregar = new Button();
+            buttonEditar = new Button();
+            buttonCerrar = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPropietario).BeginInit();
             SuspendLayout();
             // 
@@ -40,25 +42,47 @@
             dataGridViewPropietario.Name = "dataGridViewPropietario";
             dataGridViewPropietario.ReadOnly = true;
             dataGridViewPropietario.RowHeadersWidth = 51;
-            dataGridViewPropietario.Size = new Size(1071, 335);
+            dataGridViewPropietario.Size = new Size(1071, 426);
             dataGridViewPropietario.TabIndex = 0;
             // 
-            // button1
+            // buttonAgregar
             // 
-            button1.Location = new Point(1121, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(130, 62);
-            button1.TabIndex = 1;
-            button1.Text = "Agregar";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonAgregar.Location = new Point(1121, 34);
+            buttonAgregar.Name = "buttonAgregar";
+            buttonAgregar.Size = new Size(130, 65);
+            buttonAgregar.TabIndex = 1;
+            buttonAgregar.Text = "Agregar";
+            buttonAgregar.UseVisualStyleBackColor = true;
+            buttonAgregar.Click += buttonAgregar_Click;
+            // 
+            // buttonEditar
+            // 
+            buttonEditar.Location = new Point(1121, 160);
+            buttonEditar.Name = "buttonEditar";
+            buttonEditar.Size = new Size(125, 64);
+            buttonEditar.TabIndex = 2;
+            buttonEditar.Text = "Editar";
+            buttonEditar.UseVisualStyleBackColor = true;
+            buttonEditar.Click += buttonEditar_Click;
+            // 
+            // buttonCerrar
+            // 
+            buttonCerrar.Location = new Point(1121, 283);
+            buttonCerrar.Name = "buttonCerrar";
+            buttonCerrar.Size = new Size(125, 64);
+            buttonCerrar.TabIndex = 3;
+            buttonCerrar.Text = "Cerrar";
+            buttonCerrar.UseVisualStyleBackColor = true;
+            buttonCerrar.Click += buttonCerrar_Click;
             // 
             // formPropietario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1280, 450);
-            Controls.Add(button1);
+            Controls.Add(buttonCerrar);
+            Controls.Add(buttonEditar);
+            Controls.Add(buttonAgregar);
             Controls.Add(dataGridViewPropietario);
             Name = "formPropietario";
             Text = "Propietario";
@@ -70,6 +94,8 @@
         #endregion
 
         private DataGridView dataGridViewPropietario;
-        private Button button1;
+        private Button buttonAgregar;
+        private Button buttonEditar;
+        private Button buttonCerrar;
     }
 }

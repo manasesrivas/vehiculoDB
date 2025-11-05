@@ -66,3 +66,6 @@ C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\refi
 C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\vehiculoDB.pdb
 C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\vehiculoDB.genruntimeconfig.cache
 C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\ref\vehiculoDB.dll
+C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\vehiculoDB.Formularios.FormsPropietario.formInsertarPropietario.resources
+C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\vehiculoDB.sourcelink.json
+C:\Users\Judith\source\repos\vehiculoDB\vehiculoDB\obj\Debug\net9.0-windows\vehiculoDB.Formularios.FormsPropietario.formActualizarPropietario.resources

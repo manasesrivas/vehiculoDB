@@ -17,7 +17,7 @@ namespace vehiculoDB.Core.Clases
 
         public int IdPropetario { get => idPropetario; set => idPropetario = value; }
         public string Nombre { get => nombre; set => nombre = value; }
-        public string Apeliido { get => apellido; set => apellido = value; }
+        public string Apellido { get => apellido; set => apellido = value; }
         public string Dui { get => dui; set => dui = value; }
         public string Telefono { get => telefono; set => telefono = value; }
         public string Direccion { get => direccion; set => direccion = value; }

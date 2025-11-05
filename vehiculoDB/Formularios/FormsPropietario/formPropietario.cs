@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using vehiculoDB.Core.Clases;
 using vehiculoDB.Core.Dao;
+using vehiculoDB.Formularios.FormsPropietario;
 
 namespace vehiculoDB.Formularios.FormPropietario
 {
@@ -69,6 +71,7 @@ namespace vehiculoDB.Formularios.FormPropietario
         {
             dataGridViewPropietario.DataSource = propietarioDao.GetAll();
             dataGridViewPropietario.ClearSelection();
+            dataGridViewPropietario.CurrentCell = null;
         }
 
         private void formPropietario_Load(object sender, EventArgs e)
@@ -77,9 +80,53 @@ namespace vehiculoDB.Formularios.FormPropietario
             Cargar();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonAgregar_Click(object sender, EventArgs e)
         {
+            formInsertarPropietario form = new formInsertarPropietario();
 
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                Cargar();
+            }
+
+        }
+
+        private void buttonCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private int? GetIdSeleccionado()
+        {
+            if (dataGridViewPropietario.CurrentRow == null)
+            {
+                MessageBox.Show("Debe seleccionar un registro", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
+
+            if (dataGridViewPropietario.CurrentRow.DataBoundItem is Propietario propietario)
+            {
+                return propietario.IdPropetario;
+            }
+
+            return null;
+        }
+
+        private void buttonEditar_Click(object sender, EventArgs e)
+        {
+            var id = GetIdSeleccionado();
+            if (!id.HasValue)
+            {
+                MessageBox.Show("Seleccione una fila");
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Editar " + id.Value.ToString());
+            }
+                formActualizarPropietario form = new formActualizarPropietario(id.Value);
+
+            if (form.ShowDialog() == DialogResult.OK);
         }
     }
 }
